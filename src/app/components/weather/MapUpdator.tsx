@@ -1,20 +1,18 @@
-import { useMap } from "react-leaflet";
+"use client";
 import { useEffect } from "react";
+import { useMap } from "react-leaflet";
 
 interface MapUpdaterProps {
-  lat: number;
-  lon: number;
+  center: [number, number];
+  zoom: number;
 }
 
-const MapUpdater = ({ lat, lon }: MapUpdaterProps) => {
+const MapUpdater: React.FC<MapUpdaterProps> = ({ center, zoom }) => {
   const map = useMap();
-
   useEffect(() => {
-    if (lat && lon) {
-      map.setView([lat, lon], 10); // setView with desired zoom
-    }
-  }, [lat, lon, map]);
-
+    map.setView(center, zoom);
+  }, [center, zoom, map]);
   return null;
 };
+
 export default MapUpdater;

@@ -4,12 +4,13 @@ import { useState } from "react";
 
 import React from "react";
 import WeatherCard from "./components/weather/page";
+import { WeatherData } from "@/types/weather";
 
 const HomeWeather = () => {
   const [city, setCity] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [weather, setWeather] = useState<any>(false);
+  const [weather, setWeather] = useState<WeatherData | null>(null);
 
   const fetchWeather = async () => {
     setLoading(true);

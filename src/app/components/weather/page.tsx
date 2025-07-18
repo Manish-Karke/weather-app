@@ -3,42 +3,13 @@ import React from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import icon from "../../../utils/leafletConfig";
 import MapUpdater from "./MapUpdator";
-import Image from "next/image";
-interface Weather {
-  coord: { lat: number; lon: number };
-  weather: { description: string; icon: string }[];
-  base?: string;
-  main: {
-    temp: number;
-    feels_like: number;
-    temp_min?: number;
-    temp_max?: number;
-    pressure: number;
-    humidity: number;
-  };
-  visibility: number;
-  wind: { speed: number; deg?: number };
-  clouds?: { all: number };
-  dt: number;
-  sys: {
-    type?: number;
-    id?: number;
-    country: string;
-    sunrise: number;
-    sunset: number;
-  };
-  timezone?: number;
-  id?: number;
-  name: string;
-  cod?: number;
-}
+import { WeatherData } from "@/types/weather";
 
 interface WeatherCardProps {
-  weather: Weather | null;
+  weather: WeatherData | null;
 }
 
 const WeatherCard: React.FC<WeatherCardProps> = ({ weather }) => {
-  // Return null if no weather data is provided
   console.log("weather", weather);
   if (!weather) {
     return null;
@@ -67,14 +38,13 @@ const WeatherCard: React.FC<WeatherCardProps> = ({ weather }) => {
               Weather on {new Date(weather.dt * 1000).toLocaleDateString()}
             </p>
           </div>
-          <Image
+          <img
             src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
             alt="Weather icon"
             className="w-12 h-12 sm:w-16 sm:h-16"
           />
         </div>
 
-        {/* Main Weather Info */}
         <div className="text-center mb-4 sm:mb-6">
           <h2 className="text-4xl sm:text-5xl font-extrabold text-blue-600">
             {Math.round(weather.main.temp)}°C
@@ -97,7 +67,7 @@ const WeatherCard: React.FC<WeatherCardProps> = ({ weather }) => {
           >
             <TileLayer
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
             <Marker
               position={[weather.coord.lat, weather.coord.lon]}
@@ -105,9 +75,10 @@ const WeatherCard: React.FC<WeatherCardProps> = ({ weather }) => {
             >
               <Popup>{weather.name}</Popup>
             </Marker>
-
-            {/* This will re-center the map whenever weather changes */}
-            <MapUpdater lat={weather.coord.lat} lon={weather.coord.lon} />
+            <MapUpdater
+              center={[weather.coord.lat, weather.coord.lon]}
+              zoom={10}
+            />
           </MapContainer>
         </div>
 
