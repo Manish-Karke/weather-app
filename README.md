@@ -1,4 +1,45 @@
+# Weather App with Map
+
+A dynamic weather application built with **Next.js**, **TailwindCSS**, **OpenWeatherMap API**, and **Leaflet.js + OpenStreetMap**.
+
+Users can:
+
+- Search for any city.
+- View the current weather, temperature, humidity, wind, sunrise, and sunset times.
+- See the location on an interactive map.
+
+---
+
+## Demo
+
+![App Screenshot](./assets/screenshot.png)
+
+---
+
+## Tech Stack
+
+- [Next.js](https://nextjs.org/) — React framework
+- [TailwindCSS](https://tailwindcss.com/) — Styling
+- [OpenWeatherMap API](https://openweathermap.org/api) — Weather data
+- [React Leaflet](https://react-leaflet.js.org/) — Map integration
+- [OpenStreetMap](https://www.openstreetmap.org/) — Map tiles
+
+---
+
+## Features
+
+✅ Search for a city  
+✅ View real-time weather conditions  
+✅ See an interactive map of the city  
+✅ Fully responsive and mobile-friendly  
+✅ Smooth UI with TailwindCSS
+
+---
+
+## Screenshots
+
 ![main image](./public/image1.png)
+![main image](./public/image2.png)
 
 ## Getting Started
 
