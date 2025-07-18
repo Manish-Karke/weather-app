@@ -20,7 +20,7 @@ const HomeWeather = () => {
     setError("");
     try {
       const res = await fetch(
-        `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY}`
+        `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY}`
       );
       if (!res.ok) throw new Error("City not found");
       const data = await res.json();
