@@ -23,8 +23,12 @@ const HomeWeather = () => {
       const data = await res.json();
       setWeather(data);
       console.log(data);
-    } catch (error: any) {
-      setError(error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("An unknown error occurred");
+      }
       setWeather(null);
     } finally {
       setLoading(false);
