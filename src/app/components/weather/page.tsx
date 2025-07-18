@@ -1,31 +1,68 @@
+"use client";
 import React from "react";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import icon from "../../../utils/leafletConfig";
+import MapUpdater from "./MapUpdator";
+interface Weather {
+  coord: { lat: number; lon: number };
+  weather: { description: string; icon: string }[];
+  base?: string;
+  main: {
+    temp: number;
+    feels_like: number;
+    temp_min?: number;
+    temp_max?: number;
+    pressure: number;
+    humidity: number;
+  };
+  visibility: number;
+  wind: { speed: number; deg?: number };
+  clouds?: { all: number };
+  dt: number;
+  sys: {
+    type?: number;
+    id?: number;
+    country: string;
+    sunrise: number;
+    sunset: number;
+  };
+  timezone?: number;
+  id?: number;
+  name: string;
+  cod?: number;
+}
 
-const WeatherCard = ({ weather }) => {
+interface WeatherCardProps {
+  weather: Weather | null;
+}
+
+const WeatherCard: React.FC<WeatherCardProps> = ({ weather }) => {
+  // Return null if no weather data is provided
+  console.log("weather", weather);
   if (!weather) {
     return null;
   }
+
   // Convert UNIX timestamps to readable time
-  const sunrise = new Date(1752795241 * 1000).toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "numeric",
-    hour12: true,
-  });
-  const sunset = new Date(1752844529 * 1000).toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "numeric",
-    hour12: true,
-  });
+  const sunrise = new Date(weather.sys.sunrise * 1000).toLocaleTimeString(
+    "en-US",
+    { hour: "numeric", minute: "numeric", hour12: true }
+  );
+  const sunset = new Date(weather.sys.sunset * 1000).toLocaleTimeString(
+    "en-US",
+    { hour: "numeric", minute: "numeric", hour12: true }
+  );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-300 to-gray-200 flex items-center justify-center p-4">
-      <div className="bg-gradient-to-br from-blue-200 to-gray-1000 rounded-2xl shadow-2xl p-6 max-w-md w-full transform hover:scale-105 transition-transform duration-300">
-        <div className="flex items-center justify-between mb-4">
+    <div className="bg-gradient-to-br from-blue-100 w-800 to-gray-1200 flex items-center justify-center p-4 sm:p-6 md:p-8">
+      <div className="bg-gradient-to-br from-blue-100 to-gray-1200 rounded-2xl shadow-2xl p-4 sm:p-6 md:p-8 w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-2xl transform hover:scale-105 transition-transform duration-300">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-3 sm:mb-4">
           <div>
             <h1 className="text-xl sm:text-2xl font-bold text-gray-800">
               {weather.name}, {weather.sys.country}
             </h1>
-            <p className="text-sm text-gray-500">
-              Weather on {new Date(1752802524 * 1000).toLocaleDateString()}
+            <p className="text-xs sm:text-sm text-gray-500">
               Weather on {new Date(weather.dt * 1000).toLocaleDateString()}
             </p>
           </div>
@@ -36,6 +73,7 @@ const WeatherCard = ({ weather }) => {
           />
         </div>
 
+        {/* Main Weather Info */}
         <div className="text-center mb-4 sm:mb-6">
           <h2 className="text-4xl sm:text-5xl font-extrabold text-blue-600">
             {Math.round(weather.main.temp)}°C
@@ -46,6 +84,30 @@ const WeatherCard = ({ weather }) => {
           <p className="text-xs sm:text-sm text-gray-500">
             Feels like {Math.round(weather.main.feels_like)}°C
           </p>
+        </div>
+
+        {/* Map */}
+        <div className="mb-4 sm:mb-6 h-64 sm:h-80">
+          <MapContainer
+            center={[weather.coord.lat, weather.coord.lon]}
+            zoom={10}
+            style={{ height: "100%", width: "100%", borderRadius: "1rem" }}
+            className="z-0"
+          >
+            <TileLayer
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            />
+            <Marker
+              position={[weather.coord.lat, weather.coord.lon]}
+              icon={icon}
+            >
+              <Popup>{weather.name}</Popup>
+            </Marker>
+
+            {/* This will re-center the map whenever weather changes */}
+            <MapUpdater lat={weather.coord.lat} lon={weather.coord.lon} />
+          </MapContainer>
         </div>
 
         {/* Weather Details Grid */}
@@ -86,7 +148,16 @@ const WeatherCard = ({ weather }) => {
 
         {/* Footer */}
         <div className="mt-4 sm:mt-6 text-center">
-          <p className="text-xs text-gray-400">Data from OpenWeatherMap</p>
+          <p className="text-xs text-gray-400">
+            Data from OpenWeatherMap | Map from{" "}
+            <a
+              href="https://www.openstreetmap.org"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              OpenStreetMap
+            </a>
+          </p>
         </div>
       </div>
     </div>
