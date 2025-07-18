@@ -3,6 +3,7 @@ import React from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import icon from "../../../utils/leafletConfig";
 import MapUpdater from "./MapUpdator";
+import Image from "next/image";
 interface Weather {
   coord: { lat: number; lon: number };
   weather: { description: string; icon: string }[];
@@ -66,7 +67,7 @@ const WeatherCard: React.FC<WeatherCardProps> = ({ weather }) => {
               Weather on {new Date(weather.dt * 1000).toLocaleDateString()}
             </p>
           </div>
-          <img
+          <Image
             src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
             alt="Weather icon"
             className="w-12 h-12 sm:w-16 sm:h-16"

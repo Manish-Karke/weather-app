@@ -1,5 +1,5 @@
 "use client";
-import { useRouter } from "next/navigation";
+
 import { useState } from "react";
 
 import React from "react";
@@ -10,7 +10,7 @@ const HomeWeather = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [weather, setWeather] = useState(null);
-  const route = useRouter();
+
   const fetchWeather = async () => {
     setLoading(true);
     setError("");
