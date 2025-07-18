@@ -1,4 +1,4 @@
-![main image](/public/image1.png)
+![main image](./public/image1.png)
 
 ## Getting Started
 
