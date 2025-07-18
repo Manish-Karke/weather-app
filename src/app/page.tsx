@@ -9,7 +9,7 @@ const HomeWeather = () => {
   const [city, setCity] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [weather, setWeather] = useState(null);
+  const [weather, setWeather] = useState<any>(false);
 
   const fetchWeather = async () => {
     setLoading(true);
