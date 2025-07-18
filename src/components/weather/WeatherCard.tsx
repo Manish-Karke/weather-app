@@ -44,7 +44,7 @@ const WeatherCard: React.FC<WeatherCardProps> = ({ weather }) => {
             </p>
           </div>
           <Image
-            src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
+            src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
             alt="Weather icon"
             width={64}
             height={64}
